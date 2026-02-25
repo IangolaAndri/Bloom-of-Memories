@@ -3,7 +3,10 @@
 Generative oil painting driven by colour data extracted from photographs. 750 paint daubs rendered in p5.js.  
 No photographs are displayed, only the colours they carried.
 
+Example from local dataset
 ![Bloom of Memories](preview01.png)
+
+Example from Unsplash Lite dataset 
 ![Bloom of Memories](preview02.png)
 
 ---
@@ -20,7 +23,7 @@ When painting begins, each of the 750 daubs picks a random photo pool, then draw
 
 ## Dataset modes
 
-**`'unsplash'`** — reads `colors.csv000` from the Unsplash Lite Dataset. Each row contains pre-extracted RGB values and a prominence score for a colour region within a photo. Colours are weighted by score so dominant colours appear proportionally more. Download from [unsplash.com/data](https://unsplash.com/data).
+**`'unsplash'`** — reads `colors.csv000` from the Unsplash Lite Dataset. Each row contains pre-extracted RGB values and a prominence score for a colour region within a photo. Colours are weighted by score so dominant colours appear proportionally more.
 
 **`'local'`** — loads JPEG images from `/photos`, pixel-samples each one at 80px wide, and builds colour pools directly from the pixel data.
 
@@ -28,18 +31,36 @@ Both modes produce identical pool structures and feed into the same painting pip
 
 ---
 
-## Setup
+## Getting the Unsplash Lite Dataset
 
-Requires a local server (e.g. [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) or `python3 -m http.server`).
+1. Go to [unsplash.com/data](https://unsplash.com/data) and download the Lite dataset (~700 MB compressed)
+2. Unzip — you will get a folder called `unsplash-research-dataset-lite-latest/`
+3. Place that folder in your project directory alongside `sketch.js`
+
+Your working directory should look like this:
 
 ```
 project/
 ├── index.html
 ├── sketch.js
-└── photos/        ← only needed for local mode
+├── photos/                                      ← only needed for local mode
+└── unsplash-research-dataset-lite-latest/
+    ├── colors.csv000
+    ├── colors.csv001
+    ├── colors.csv002
+    ├── photos.csv000
+    └── ...
 ```
 
-For Unsplash mode: place the unzipped dataset folder alongside `sketch.js`, or update the paths in configuration.
+The sketch reads `colors.csv000` by default. Any single chunk works — each contains thousands of photos worth of colour data.
+
+---
+
+## Setup
+
+Requires a local server (e.g. [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) or `python3 -m http.server`).
+
+Set `ACTIVE_DATASET = 'unsplash'` in `sketch.js`, then open the project via the local server. The dataset loads automatically from the path set in configuration.
 
 ---
 
