@@ -1,23 +1,20 @@
 # Bloom of Memories
 
-Generative oil painting driven by colour data extracted from photographs. 750 paint daubs rendered in p5.js.  
-No photographs are displayed, only the colours they carried.
+Generative oil painting driven by colour data extracted from photographs. 750 paint daubs rendered in p5.js. 
 
-Example from local dataset
+Example from using local dataset
 ![Bloom of Memories](preview01.png)
 
-Example from Unsplash Lite dataset 
+Example from using the Unsplash Lite dataset 
 ![Bloom of Memories](preview02.png)
 
 ---
 
 ## How the dataset becomes a painting
 
-Regardless of which dataset is used, the process is the same.
+Every photograph is reduced to a set of RGB colour samples. These are grouped into a pool, one pool per photo. Each colour in the pool carries a saturation value, brightness, and hue. Once all pools are built, a statistical profile of the entire dataset is computed: average saturation, brightness, warmth, contrast, and hue spread.
 
-Every photograph is reduced to a set of RGB colour samples. These are grouped into a pool — one pool per photo. Each colour in the pool carries a saturation value, brightness, and hue. Once all pools are built, a statistical profile of the entire dataset is computed: average saturation, brightness, warmth, contrast, and hue spread. This profile shapes the character of the painting as a whole.
-
-When painting begins, each of the 750 daubs picks a random photo pool, then draws a colour from it. 60% of daubs favour the most saturated candidate from 10 samples — pulling vivid, prominent colours to the surface. 40% take any colour at random, preserving quieter and neutral tones. The result is a painting whose palette is a direct reflection of the colour memory of the dataset — its warmth, its contrast, how wide or narrow its range of hues.
+When painting begins, each of the 750 daubs picks a random photo pool, then draws a colour from it. 60% of daubs favour the most saturated candidate from 10 samples pulling vivid, prominent colours to the surface. 40% take any colour at random, preserving quieter and neutral tones. The result is a painting whose palette is a direct reflection of the colour memory of the dataset: its warmth, its contrast, how wide or narrow its range of hues.
 
 ---
 
@@ -34,8 +31,8 @@ Both modes produce identical pool structures and feed into the same painting pip
 ## Getting the Unsplash Lite Dataset
 
 1. Go to [unsplash.com/data](https://unsplash.com/data) and download the Lite dataset (~700 MB compressed)
-2. Unzip — you will get a folder called `unsplash-research-dataset-lite-latest/`
-3. Place that folder in your project directory alongside `sketch.js`
+2. Unzip
+3. Place folder in your project directory 
 
 Your working directory should look like this:
 
@@ -43,6 +40,8 @@ Your working directory should look like this:
 project/
 ├── index.html
 ├── sketch.js
+├── dataConfig.js
+├── painting.js
 ├── photos/                                      ← only needed for local mode
 └── unsplash-research-dataset-lite-latest/
     ├── colors.csv000
@@ -51,8 +50,6 @@ project/
     ├── photos.csv000
     └── ...
 ```
-
-The sketch reads `colors.csv000` by default. Any single chunk works — each contains thousands of photos worth of colour data.
 
 ---
 
