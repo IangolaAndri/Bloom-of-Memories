@@ -1,42 +1,30 @@
 # Bloom of Memories
 
-Generative oil painting driven by the Unsplash Lite Dataset. 750 paint daubs rendered in p5.js.  
+Generative oil painting driven by colour data extracted from photographs. 750 paint daubs rendered in p5.js.  
 No photographs are displayed, only the colours they carried.
 
-Example with local dataset (my own pictures)
 ![Bloom of Memories](preview01.png)
-
-Example with the Unsplash Lite Dataset
 ![Bloom of Memories](preview02.png)
 
 ---
 
-## Dataset
+## How the dataset becomes a painting
 
-Two modes are supported:
+Regardless of which dataset is used, the process is the same.
 
-**Unsplash Lite** (default) — uses `colors.csv000`, a tab-separated file of pre-extracted colour data for ~25,000 nature photographs. Download from [unsplash.com/data](https://unsplash.com/data).
+Every photograph is reduced to a set of RGB colour samples. These are grouped into a pool — one pool per photo. Each colour in the pool carries a saturation value, brightness, and hue. Once all pools are built, a statistical profile of the entire dataset is computed: average saturation, brightness, warmth, contrast, and hue spread. This profile shapes the character of the painting as a whole.
 
-**Local photos** — place your own JPEGs in `/photos` named `img001.jpg`, `img002.jpg` etc. The sketch pixel-samples each image directly to extract colour.
+When painting begins, each of the 750 daubs picks a random photo pool, then draws a colour from it. 60% of daubs favour the most saturated candidate from 10 samples — pulling vivid, prominent colours to the surface. 40% take any colour at random, preserving quieter and neutral tones. The result is a painting whose palette is a direct reflection of the colour memory of the dataset — its warmth, its contrast, how wide or narrow its range of hues.
 
-### How the colour data drives the painting
+---
 
-The `colors.csv000` file contains one row per colour region per photo:
+## Dataset modes
 
-```
-photo_id    hex       red   green   blue   keyword    coverage   score
-MJBb_q5y   7D0D10    125   13      16     maroon     0.008      0.094
-```
+**`'unsplash'`** — reads `colors.csv000` from the Unsplash Lite Dataset. Each row contains pre-extracted RGB values and a prominence score for a colour region within a photo. Colours are weighted by score so dominant colours appear proportionally more. Download from [unsplash.com/data](https://unsplash.com/data).
 
-| Field | How it's used |
-|---|---|
-| `red` `green` `blue` | Direct RGB values — no hex conversion. These become the paint colour for each daub |
-| `photo_id` | Groups colour rows into per-photo pools, one pool per photograph |
-| `score` | Visual prominence weight — higher score colours are sampled more often, so dominant colours appear more in the painting |
-| `coverage` | Not used — `score` already encodes relative importance |
-| `keyword` / `hex` | Not used |
+**`'local'`** — loads JPEG images from `/photos`, pixel-samples each one at 80px wide, and builds colour pools directly from the pixel data.
 
-Each paint blob picks a random photo pool, then draws a colour from it weighted by score. 60% of blobs favour the most saturated option from 10 candidates; 40% take any colour, giving the painting both vivid passages and quieter neutral areas.
+Both modes produce identical pool structures and feed into the same painting pipeline.
 
 ---
 
@@ -51,25 +39,23 @@ project/
 └── photos/        ← only needed for local mode
 ```
 
-Open in browser → click **Load colors.csv** → select `colors.csv000` from the unzipped dataset.
+For Unsplash mode: place the unzipped dataset folder alongside `sketch.js`, or update the paths in configuration.
 
 ---
 
 ## Configuration
 
-At the top of `sketch.js`:
-
 ```js
-const USE_LOCAL_DATASET = false;  // true  = local /photos/ folder
-                                  // false = Unsplash Lite colors.csv
-```
+const ACTIVE_DATASET = 'local';     // 'local' or 'unsplash'
 
-For local mode, also set:
+// Local
+const LOCAL_TOTAL_IMAGES = 59;
+const LOCAL_IMAGE_PREFIX = 'photos/img';
+const LOCAL_IMAGE_DIGITS = 3;
 
-```js
-const LOCAL_TOTAL_IMAGES = 64;           // number of images
-const LOCAL_IMAGE_PREFIX = 'photos/img'; // path + filename prefix
-const LOCAL_IMAGE_DIGITS = 3;            // zero-padding, e.g. 001
+// Unsplash
+const UNSPLASH_COLORS_PATH = 'unsplash-research-dataset-lite-latest/colors.csv000';
+const UNSPLASH_PHOTOS_PATH = 'unsplash-research-dataset-lite-latest/photos.csv000';
 ```
 
 ---
