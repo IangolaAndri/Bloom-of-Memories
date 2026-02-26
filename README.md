@@ -1,6 +1,6 @@
 # Bloom of Memories
 
-Generative oil painting driven by colour data extracted from photographs. 750 paint daubs rendered in p5.js. 
+Generative "oil painting" driven by colour data extracted from photographs.
 
 Example from using local dataset
 ![Bloom of Memories](preview01.png)
@@ -14,7 +14,7 @@ Example from using the Unsplash Lite dataset
 
 Every photograph is reduced to a set of RGB colour samples. These are grouped into a pool, one pool per photo. Each colour in the pool carries a saturation value, brightness, and hue. Once all pools are built, a statistical profile of the entire dataset is computed: average saturation, brightness, warmth, contrast, and hue spread.
 
-When painting begins, each of the 750 daubs picks a random photo pool, then draws a colour from it. 60% of daubs favour the most saturated candidate from 10 samples pulling vivid, prominent colours to the surface. 40% take any colour at random, preserving quieter and neutral tones. The result is a painting whose palette is a direct reflection of the colour memory of the dataset: its warmth, its contrast, how wide or narrow its range of hues.
+When painting begins, each of the daubs picks a random photo pool, then draws a colour from it. 60% of daubs favour the most saturated candidate from 10 samples pulling vivid, prominent colours to the surface. 40% take any colour at random, preserving quieter and neutral tones. The result is a painting whose palette is a direct reflection of the colour memory of the dataset: its warmth, its contrast, how wide or narrow its range of hues.
 
 ---
 
