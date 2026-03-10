@@ -3,7 +3,7 @@
 Generative "oil painting" driven by colour data extracted from photographs.
 
 Example from using local dataset
-![Bloom of Memories](preview01.png)
+![Bloom of Memories](previewLocal.png)
 
 Example from using the Unsplash Lite dataset 
 ![Bloom of Memories](preview02.png)
