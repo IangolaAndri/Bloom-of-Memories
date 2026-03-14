@@ -6,7 +6,7 @@ Example from using local dataset
 ![Bloom of Memories](previewLocal.png)
 
 Example from using the Unsplash Lite dataset 
-![Bloom of Memories](preview02.png)
+![Bloom of Memories](previewUnsplash.png)
 
 ---
 
