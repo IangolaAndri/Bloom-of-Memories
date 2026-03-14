@@ -1,6 +1,6 @@
 # Bloom of Memories
 
-Generative "oil painting" driven by colour data extracted from photographs.
+Generative art piece driven by colour data extracted from photographs.
 
 Example from using local dataset
 ![Bloom of Memories](previewLocal.png)
@@ -12,9 +12,9 @@ Example from using the Unsplash Lite dataset
 
 ## How the dataset becomes a painting
 
-Every photograph is reduced to a set of RGB colour samples. These are grouped into a pool, one pool per photo. Each colour in the pool carries a saturation value, brightness, and hue. Once all pools are built, a statistical profile of the entire dataset is computed: average saturation, brightness, warmth, contrast, and hue spread.
+Every photograph is reduced to a set of RGB colour samples. These are grouped into a pool, one pool per photo. Each colour in the pool carries a saturation value, brightness, and hue. Once all pools are built, a statistical profile of the entire dataset is computed: average warmth, contrast, and hue spread.
 
-When painting begins, each of the daubs picks a random photo pool, then draws a colour from it. 60% of daubs favour the most saturated candidate from 10 samples pulling vivid, prominent colours to the surface. 40% take any colour at random, preserving quieter and neutral tones. The result is a painting whose palette is a direct reflection of the colour memory of the dataset: its warmth, its contrast, how wide or narrow its range of hues.
+When painting begins, each of the daubs picks a random photo pool, then draws a colour from it. The result is a painting whose palette is a direct reflection of the colour memory of the dataset: its warmth, its contrast, how wide or narrow its range of hues.
 
 ---
 
@@ -23,8 +23,6 @@ When painting begins, each of the daubs picks a random photo pool, then draws a 
 **`'unsplash'`** — reads `colors.csv000` from the Unsplash Lite Dataset. Each row contains pre-extracted RGB values and a prominence score for a colour region within a photo. Colours are weighted by score so dominant colours appear proportionally more.
 
 **`'local'`** — loads JPEG images from `/photos`, pixel-samples each one at 80px wide, and builds colour pools directly from the pixel data.
-
-Both modes produce identical pool structures and feed into the same painting pipeline.
 
 ---
 
