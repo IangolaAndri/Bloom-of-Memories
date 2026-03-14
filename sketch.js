@@ -2,59 +2,49 @@
 //  SKETCH — p5.js entry points
 //  Depends on: dataConfig.js, painting.js
 // ─────────────────────────────────────────────────────────
-
 let blobs   = [];
 let spawned = 0;
 let t       = 0;
 
-const TOTAL_BLOBS    = 750;
-const SPAWN_INTERVAL = 2;   // frames between each daub (lower = faster)
+let TOTAL_BLOBS    = 750;
+const SPAWN_INTERVAL = 2;
+
 
 // ─────────────────────────────────────────────────────────
 //  POOL INITIALISER
 // ─────────────────────────────────────────────────────────
 function initBlobs() {
-  blobs = []; spawned = 0; t = 0;
   for (let i = 0; i < TOTAL_BLOBS; i++) blobs.push(new PaintBlob());
 }
 
-// ─────────────────────────────────────────────────────────
-//  p5 LIFECYCLE
-// ─────────────────────────────────────────────────────────
-
-// preload() is defined in dataConfig.js (handles local image loading)
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   noStroke();
 
-  if (USE_LOCAL_DATASET) {
-    extractPaintData();
+  if (ACTIVE_DATASET === 'local') {
+    extractLocalData();
     drawGround();
     initBlobs();
   } else {
-    drawGround(); // show linen while waiting for file / CSV picker
-    loadUnsplashData(function(ok) {
+    drawGround();
+    loadDataset(function(ok) {
       if (ok) { drawGround(); initBlobs(); }
+      else    { console.warn('[sketch] Data load failed.'); }
     });
   }
 }
 
+
 function draw() {
   t++;
-  if (blobs.length === 0) return; // waiting for data
+  if (blobs.length === 0) return;
   if (spawned < TOTAL_BLOBS && t % SPAWN_INTERVAL === 0) {
     blobs[spawned].paint();
     spawned++;
   }
 }
 
-function mousePressed() {
-  if (USE_LOCAL_DATASET || paintStrokes.length > 0) {
-    drawGround();
-    initBlobs();
-  }
-}
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
