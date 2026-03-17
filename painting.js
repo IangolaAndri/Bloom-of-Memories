@@ -80,10 +80,10 @@ function poolMetaFromStrokes(strokes) {
   // ─────────────────────────────────────────────────────────
   //  CORE PAINT DAUB 
   // ─────────────────────────────────────────────────────────
-  function paintDaub(x, y, r, R, G, B, avgSat) {
+  function paintDaub(x, y, r, R, G, B) {
     let dc = drawingContext;
-    let Rd = R, Gd = G, Bd = B;
-    // LAYER 2 — main body, overlapping strokes
+
+    // LAYER 1 — main body, overlapping strokes
     let numStrokes = floor(r * 1.8);
     for (let i = 0; i < numStrokes; i++) {
       let progress = i / numStrokes;
@@ -103,7 +103,7 @@ function poolMetaFromStrokes(strokes) {
       pop();
     }
   
-    // LAYER 3 — dry brush gaps (ground showing through)
+    // LAYER 2 — dry brush gaps (ground showing through)
     let groundC  = color(235, 228, 214);
     let numHoles = floor(r * 0.6);
     for (let i = 0; i < numHoles; i++) {
@@ -114,45 +114,8 @@ function poolMetaFromStrokes(strokes) {
       fill(red(groundC) + random(-8,8), green(groundC) + random(-6,6), blue(groundC) + random(-4,4), random(25, 65));
       ellipse(hx, hy, hs * random(0.5, 2.0), hs * random(0.5, 2.0));
     }
-  
-    // LAYER 4 — bristle drag lines (clipped to blob boundary)
-    let brushDir = random(TWO_PI);
-    let numLines = floor(r * 1.4);
-    dc.save();
-    dc.beginPath(); dc.arc(x, y, r * 1.02, 0, TWO_PI); dc.clip();
-    for (let i = 0; i < numLines; i++) {
-      let perp   = brushDir + HALF_PI;
-      let spread = r * random(-0.85, 0.85);
-      let lx = x + cos(perp) * spread, ly = y + sin(perp) * spread;
-      let llen = random(r * 0.3, r * 0.9);
-      if (random() < 0.3) llen *= random(0.2, 0.6);
-      let off = random(-r * 0.2, r * 0.2);
-      let lx0 = lx + cos(brushDir) * (off - llen / 2), ly0 = ly + sin(brushDir) * (off - llen / 2);
-      let lx1 = lx + cos(brushDir) * (off + llen / 2), ly1 = ly + sin(brushDir) * (off + llen / 2);
-      let lR = constrain(R + random(-20, 30), 0, 255);
-      let lG = constrain(G + random(-16, 24), 0, 255);
-      let lB = constrain(B + random(-14, 20), 0, 255);
-      dc.beginPath(); dc.moveTo(lx0, ly0); dc.lineTo(lx1, ly1);
-      dc.strokeStyle = `rgba(${~~lR},${~~lG},${~~lB},${random(0.08, 0.26).toFixed(2)})`;
-      dc.lineWidth = random(0.5, 2.2); dc.lineCap = 'round'; dc.stroke();
-    }
-    dc.restore();
-    noStroke();
-  
-    // LAYER 5 — impasto edge buildup (inside boundary)
-    let edgeCount = floor(r * 2.2);
-    for (let i = 0; i < edgeCount; i++) {
-      let a  = random(TWO_PI);
-      let ed = r * random(0.72, 0.94);
-      let ex = x + cos(a) * ed, ey = y + sin(a) * ed;
-      let ew = random(r * 0.05, r * 0.14), eh = ew * random(0.4, 1.0);
-      fill(Rd, Gd, Bd, random(40, 90));
-      push(); translate(ex, ey); rotate(a + random(-0.5, 0.5));
-      ellipse(0, 0, ew, eh);
-      pop();
-    }
-  
-    // LAYER 6 — oil sheen
+    
+    // LAYER 3 — oil sheen
     let sx2 = x - r * 0.2, sy2 = y - r * 0.22;
     let sg  = dc.createRadialGradient(sx2, sy2, 0, sx2, sy2, r * 0.55);
     sg.addColorStop(0, 'rgba(255,250,240,0.22)');
