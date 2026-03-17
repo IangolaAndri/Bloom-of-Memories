@@ -3,7 +3,7 @@
 //  'local'    → local photos folder
 //  'unsplash' → Unsplash Lite colors.csv + photos.csv
 // ─────────────────────────────────────────────────────────
-const ACTIVE_DATASET = 'local';
+const ACTIVE_DATASET = 'unsplash';
 
 // ── Local config
 const LOCAL_TOTAL_IMAGES = 33;
