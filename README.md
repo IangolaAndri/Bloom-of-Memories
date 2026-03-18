@@ -76,12 +76,6 @@ const UNSPLASH_PHOTOS_PATH = 'unsplash-research-dataset-lite-latest/photos.csv00
 
 ---
 
-## Interaction
-
-- **Click** — regenerates the painting
-- **Resize** — canvas adapts
-
----
 
 ## Credits
 
