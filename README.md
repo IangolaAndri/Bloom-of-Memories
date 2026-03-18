@@ -3,10 +3,10 @@
 Generative art piece driven by colour data extracted from photographs.
 
 Example from using local dataset
-![Bloom of Memories](previewLocal.png)
+![Bloom of Memories](local.png)
 
 Example from using the Unsplash Lite dataset 
-![Bloom of Memories](previewUnsplash.png)
+![Bloom of Memories](unsplash.png)
 
 ---
 
